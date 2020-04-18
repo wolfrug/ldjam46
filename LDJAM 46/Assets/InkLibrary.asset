@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc234ab28a32840f5adfb84a075bc023, type: 3}
+  m_Name: InkLibrary
+  m_EditorClassIdentifier: 
+  inkLibrary:
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: bb7a4748f8e8cc341b4d8e38bbb4c059, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 4900000, guid: 519131ce1eb80034eaaa81939b9686d7, type: 3}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 450b62b163ba922449e6297de217afb6, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 0}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 332d534650f61564ea381bf3586de3f7, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 0}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 4a46e1425d5c3f14cbded33b7cb6b752, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 0}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: d1fd1382be516eb4cac532ae28454203, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 0}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 4c86475a8463367418d7f496d2211387, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 0}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 59ede2c5300176a4891eefebf9264a1c, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 0}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 2a282197b636e614f84af5b08b5d65c4, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 4900000, guid: 3744e93587e0f90458f2354cd8394624, type: 3}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 0b0c23674938f7341b923083e6db9647, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 0}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: b18be7172aa0764469c246469c7f036d, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 4900000, guid: 8412596644c31744bbb3ce7c4be60618, type: 3}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: bafa1173eaf61cc42b0106efe4b8f941, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 0}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: a63470bb9ffc04e4dbdc04e0fc6199c5, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 4900000, guid: 564d2b81680d10341a21b8efa513aa30, type: 3}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: c105c3aab27e035439c0efe60255abb5, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 0}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: c440b1cbc55e84749a524b8be40b7592, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 4900000, guid: 2feb3a5618e82a542b49a128a64dbc6a, type: 3}
+  pendingCompilationStack: []
+  compilationStack: []
