@@ -102,12 +102,12 @@ public class GridCameraController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         RaycastHit2D hit = Physics2D.Raycast (mainCam.ScreenToWorldPoint (Input.mousePosition), Vector2.zero, cameraDistance, hitMask);
-        if (Input.GetAxis ("Fire1") > 0f) {
+        if (Input.GetMouseButtonDown (0)) {
             //Debug.Log ("Clicked");
             //Debug.DrawRay (mainCam.ScreenToWorldPoint (Input.mousePosition), Vector2.zero, Color.red, 3f);
             DidHit (hit, mouseLeftClickEvent);
         }
-        if (Input.GetAxis ("Fire2") > 0f) { // we don't actually do anything with this but run the event lol
+        if (Input.GetMouseButtonDown(1)) { // we don't actually do anything with this but run the event lol
             //Debug.Log ("Clicked");
             //Debug.DrawRay (mainCam.ScreenToWorldPoint (Input.mousePosition), Vector2.zero, Color.red, 3f);
             mouseRightClickEvent.Invoke (TileInfoConstructor (null, null, new Vector3Int (0, 0, 0)));

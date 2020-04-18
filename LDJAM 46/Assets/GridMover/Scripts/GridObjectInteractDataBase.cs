@@ -2,9 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GridActionFacing {
+    NONE = 9999,
+    FORWARD = 0000,
+    RIGHT = 1000,
+    LEFT = 2000,
+    BACK = 3000,
+}
+
+public enum GridActionType {
+    NONE = 0000,
+    ATTACK = 1000,
+    MOVE = 2000,
+    SPECIAL = 3000
+}
+
 [CreateAssetMenu (fileName = "Data", menuName = "GridObjectInteractionData", order = 1)]
 public class GridObjectInteractDataBase : ScriptableObject {
     public string id;
+    public string actionName;
+    public GridActionType type = GridActionType.NONE;
+    public int actionCost = 1;
+    [Multiline]
+    public string actionDescription;
+    public Sprite actionIcon;
+    public GameObject cardPrefab;
 
     public virtual void DoAction (GridObject self) {
         Debug.Log ("Do the action!");
@@ -39,6 +61,121 @@ public class GridObjectInteractDataBase : ScriptableObject {
     }
     public List<GridObject> GetGridObject (GridObject self, int distance, Vector2Int facing) {
         return GetGridObject (self, distance, GridObjectManager.instance.ConvertNumbersToFacingEum (facing));
+    }
+
+    public GridObjectFacing ConvertRelativeFacingToAbsolute (GridActionFacing target, GridObjectFacing direction) {
+        // Converts a direction facing to relative facing, i.e. if you look up-left then up-right is facing-right
+        GridObjectFacing result = GridObjectFacing.NONE;
+        switch (direction) {
+            case GridObjectFacing.UP_LEFT:
+                {
+                    switch (target) {
+                        case GridActionFacing.RIGHT:
+                            {
+                                result = GridObjectFacing.UP_RIGHT;
+                                break;
+                            }
+                        case GridActionFacing.LEFT:
+                            {
+                                result = GridObjectFacing.DOWN_LEFT;
+                                break;
+                            }
+                        case GridActionFacing.FORWARD:
+                            {
+                                result = direction;
+                                break;
+                            }
+                        case GridActionFacing.BACK:
+                            {
+                                result = GridObjectFacing.DOWN_RIGHT;
+                                break;
+                            }
+                    }
+                    break;
+                }
+            case GridObjectFacing.UP_RIGHT:
+                {
+                    switch (target) {
+                        case GridActionFacing.RIGHT:
+                            {
+                                result = GridObjectFacing.DOWN_RIGHT;
+                                break;
+                            }
+                        case GridActionFacing.LEFT:
+                            {
+                                result = GridObjectFacing.UP_LEFT;
+                                break;
+                            }
+                        case GridActionFacing.FORWARD:
+                            {
+                                result = direction;
+                                break;
+                            }
+                        case GridActionFacing.BACK:
+                            {
+                                result = GridObjectFacing.DOWN_LEFT;
+                                break;
+                            }
+                    }
+                    break;
+                }
+            case GridObjectFacing.DOWN_LEFT:
+                {
+                    switch (target) {
+                        case GridActionFacing.RIGHT:
+                            {
+                                result = GridObjectFacing.UP_LEFT;
+                                break;
+                            }
+                        case GridActionFacing.LEFT:
+                            {
+                                result = GridObjectFacing.DOWN_RIGHT;
+                                break;
+                            }
+                        case GridActionFacing.FORWARD:
+                            {
+                                result = direction;
+                                break;
+                            }
+                        case GridActionFacing.BACK:
+                            {
+                                result = GridObjectFacing.UP_RIGHT;
+                                break;
+                            }
+                    }
+                    break;
+                }
+            case GridObjectFacing.DOWN_RIGHT:
+                {
+                    switch (target) {
+                        case GridActionFacing.RIGHT:
+                            {
+                                result = GridObjectFacing.DOWN_LEFT;
+                                break;
+                            }
+                        case GridActionFacing.LEFT:
+                            {
+                                result = GridObjectFacing.UP_RIGHT;
+                                break;
+                            }
+                        case GridActionFacing.FORWARD:
+                            {
+                                result = direction;
+                                break;
+                            }
+                        case GridActionFacing.BACK:
+                            {
+                                result = GridObjectFacing.UP_LEFT;
+                                break;
+                            }
+                    }
+                    break;
+                }
+        }
+        return result;
+    }
+    public GridObjectFacing ConvertRelativeFacingToAbsolute (GridActionFacing target, Vector2Int direction) {
+        return ConvertRelativeFacingToAbsolute (target, GridObjectManager.instance.ConvertNumbersToFacingEum (direction));
     }
 
 }

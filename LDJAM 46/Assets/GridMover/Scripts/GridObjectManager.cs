@@ -5,6 +5,8 @@ using UnityEngine;
 public class GridObjectManager : MonoBehaviour {
     public static GridObjectManager instance;
     private List<GridObject> allGridObjectsMain = new List<GridObject> { };
+
+    private List<GridObject> allPlayableObjectsMain = new List<GridObject> { };
     public Grid mainGrid;
     // Start is called before the first frame update
 
@@ -23,8 +25,21 @@ public class GridObjectManager : MonoBehaviour {
 
     public void UpdateGridObjectListSlow () {
         allGridObjectsMain.Clear ();
+        allPlayableObjectsMain.Clear ();
         foreach (GridObject obj in FindObjectsOfType<GridObject> ()) {
             allGridObjectsMain.Add (obj);
+            if (obj.data.type_ == GridObjectType.PLAYABLE) {
+                allPlayableObjectsMain.Add (obj);
+            }
+        }
+    }
+
+    public void RefreshAllObjects () {
+        foreach (GridObject obj in allGridObjectsMain) {
+            // refresh action points
+            obj.actionpoints = obj.data.actionpoints;
+            // create new lists of actions ALSO HARD CODED
+            obj.action.SetActiveActions (3, true);
         }
     }
 
@@ -35,6 +50,15 @@ public class GridObjectManager : MonoBehaviour {
             }
             return allGridObjectsMain;
         }
+    }
+    public List<GridObject> allPlayableObjects {
+        get {
+            if (allPlayableObjectsMain.Count == 0) {
+                UpdateGridObjectListSlow ();
+            }
+            return allPlayableObjectsMain;
+        }
+
     }
 
     public GridObject test1;

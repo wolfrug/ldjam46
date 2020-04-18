@@ -18,13 +18,13 @@ public class GridObject : MonoBehaviour {
     public GameObject avatar;
     public Animator animator;
     // ...I am lazy
-
     private GameObject icon;
     private GenericWorldSpaceToCanvasIcon iconScript;
     private GridObjectIcon iconUIScript;
     // This is a static bool, shared across everything, since only one object can be selected at a time!
     public static GridObject selected;
     public int health;
+    public int actionpoints;
     public bool dead;
     public Vector2Int facing;
 
@@ -37,7 +37,7 @@ public class GridObject : MonoBehaviour {
             pathfinder = GetComponentInChildren<GridPathfinder> ();
         }
         // set up pathfinder
-        pathfinder.maxDistance = data.speed;
+        //pathfinder.maxDistance = data.actionpoints;
         // set up animator
         if (animator != null) {
             pathfinder.moveStartedEvent.AddListener (AnimateMovement);
@@ -56,6 +56,7 @@ public class GridObject : MonoBehaviour {
         // setup icon
         iconUIScript = icon.GetComponent<GridObjectIcon> ();
         iconUIScript.SetName (data.name_);
+        GridUIManager.instance.AddGridObjectIcon (this, iconUIScript);
 
         // setup controls
         if (data.type_ == GridObjectType.PLAYABLE) {
@@ -70,6 +71,7 @@ public class GridObject : MonoBehaviour {
 
         // setup other things
         health = data.health;
+        actionpoints = data.actionpoints;
 
     }
 
@@ -84,20 +86,37 @@ public class GridObject : MonoBehaviour {
             action.DoAction ("attack_simple");
         };
     }
+    public void DoAction (string id) {
+        if (selected == this && !dead) {
+            GridObjectInteractDataBase theaction = action.GetAction (id);
+            if (theaction != null) {
+                if (theaction.actionCost <= actionpoints) {
+                    actionpoints -= theaction.actionCost;
+                    action.DoAction (id);
+                    GridUIManager.instance.UpdateCharacter (this);
+                };
+            };
+        }
+    }
+    public void DoAction (GridObjectInteractDataBase data) {
+        DoAction (data.id);
+    }
+
     public void SelectObject (bool select) {
         if (select) {
             selected = this;
             GridCameraController.instance.SetCamTarget (avatar.transform);
+            GridUIManager.instance.SelectCharacter (this);
         }
     }
 
     void ClickedToMove (TileInfo info) {
-        if (!dead && selected == this) {
+        if (!dead && selected == this && data.type_ == GridObjectType.PLAYABLE && GridUIManager.instance.playerTurn) {
             pathfinder.ClickedToMove (info);
         };
     }
     void ClickToChangeFacing (TileInfo info) { // change facing in the direction of a right-click when selected
-        if (!dead && selected == this) {
+        if (!dead && selected == this && data.type_ == GridObjectType.PLAYABLE) {
             Vector3Int mousePos = GridManager.instance.maingrid.WorldToCell (GridCameraController.instance.mainCam.ScreenToWorldPoint (Input.mousePosition));
             Vector3Int avatarPos = pathfinder.selfLocation;
             //Debug.Log ("Mouse X" + mousePos.x + "Avatar X: " + avatarPos.x + "Mouse Y: " + mousePos.y + "Avatar Y: " + avatarPos.y);
@@ -165,6 +184,7 @@ public class GridObject : MonoBehaviour {
     void AnimateDeath (bool death = true) {
         if (animator != null) {
             animator.SetBool ("Dead", death);
+            iconUIScript.healthBarFill = health;
         }
     }
 

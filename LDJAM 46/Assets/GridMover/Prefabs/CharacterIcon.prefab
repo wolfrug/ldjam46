@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 501644522}
   - component: {fileID: 501644521}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SelectButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -552,3 +552,4 @@ MonoBehaviour:
   nameText: {fileID: 8270939334207969119}
   healthBar: {fileID: 8270939333509738997}
   healthBarFill: 1
+  selectButton: {fileID: 501644521}

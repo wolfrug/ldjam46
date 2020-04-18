@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class GridObjectIcon : MonoBehaviour {
     public TextMeshProUGUI nameText;
     public Image healthBar;
-
     public float healthBarFill = 1f;
+    public Button selectButton;
 
     // Start is called before the first frame update
     void Start () {

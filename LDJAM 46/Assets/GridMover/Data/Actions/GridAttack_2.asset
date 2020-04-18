@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14190be580bdcdc4ca5acd3acd527094, type: 3}
+  m_Name: GridAttack_2
+  m_EditorClassIdentifier: 
+  id: attack_heavy
+  actionName: Heavy Attack
+  type: 1000
+  actionCost: 1
+  actionDescription: 'Damage: 2
+
+    <i>Hulk smash.</i>'
+  actionIcon: {fileID: 21300000, guid: 87019b5669f01ae44b7dfe348c17665e, type: 3}
+  cardPrefab: {fileID: 2788105039357319516, guid: e4f47e61225e43c4ba71825c88e3d7cb,
+    type: 3}
+  attackRange: 1
+  damage: 2
+  facing: 0
+  animationTrigger: Attack

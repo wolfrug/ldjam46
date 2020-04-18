@@ -21,9 +21,12 @@ public class GridPathfinder : MonoBehaviour {
     // this is what you actually want to move
     public Transform parentTransform;
     public Camera mainCam;
-    public bool useMouse = true;
+    private bool visualizing = false;
+    private bool confirming = false;
     public float moveSpeed = 1f;
-    public int maxDistance = 1000;
+    public int maxDistance = 0;
+    public bool zeroDistanceAfterMove = true;
+    private UnityEngine.Tilemaps.TileBase selectedTile;
     public List<Spot> currentPath = new List<Spot> ();
     public Vector3Int selfLocation;
     private Coroutine mover;
@@ -52,11 +55,28 @@ public class GridPathfinder : MonoBehaviour {
     public void ClickedToMove (TileInfo info) {
         if (mover == null) {
             if (PathFindToMouseLocation ()) {
-                if (mover == null) {
-                    mover = StartCoroutine (Mover ());
-                };
+                if (visualizing) {
+                    confirming = true;
+                    visualizing = false;
+                    selectedTile = info.tile;
+                } else if (confirming && info.tile == selectedTile) {
+                    if (mover == null) {
+                        mover = StartCoroutine (Mover ());
+                        confirming = false;
+                        visualizing = false;
+                    };
+                } else if (confirming && info.tile != selectedTile) {
+                    visualizing = true;
+                    confirming = false;
+                    selectedTile = info.tile;
+                }
             }
         };
+    }
+
+    public void StartVisualizing () {
+        visualizing = true;
+        confirming = false;
     }
 
     [EasyButtons.Button]
@@ -121,6 +141,9 @@ public class GridPathfinder : MonoBehaviour {
         moveFinishedEvent.Invoke (this, currentCell, currentCell);
         GridManager.instance.roadMap.SetTile (new Vector3Int (currentPath[currentPath.Count - 1].X, currentPath[currentPath.Count - 1].Y, 0), null);
         mover = null;
+        if (zeroDistanceAfterMove) {
+            maxDistance = 0;
+        }
 
     }
 

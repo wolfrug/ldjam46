@@ -13,9 +13,10 @@ public class GridObjectData : ScriptableObject {
     public string name_;
     public GridObjectType type_ = GridObjectType.NONE;
     public GridObjectInteractDataBase[] defaultActions;
-    public int speed = 5;
+    public int actionpoints = 5;
     public int health = 2;
     public GameObject prefab_;
     public GameObject iconPrefab_;
+    public Sprite portraitImage;
 
 }
