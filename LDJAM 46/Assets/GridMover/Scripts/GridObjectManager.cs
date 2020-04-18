@@ -27,12 +27,14 @@ public class GridObjectManager : MonoBehaviour {
     }
 
     void GridObjectDie (GridObject obj) {
+        Debug.Log ("Death: " + obj, obj.gameObject);
         objectDieEvent.Invoke (obj);
     }
 
     public void UpdateGridObjectListSlow () {
         allGridObjectsMain.Clear ();
         allPlayableObjectsMain.Clear ();
+        allEnemyObjectsMain.Clear ();
         foreach (GridObject obj in FindObjectsOfType<GridObject> ()) {
             allGridObjectsMain.Add (obj);
             obj.deathEvent.RemoveListener (GridObjectDie);
@@ -83,7 +85,7 @@ public class GridObjectManager : MonoBehaviour {
     public int LivingEntities (GridObjectType type) {
         int living = 0;
         foreach (GridObject obj in allGridObjects) {
-            if (!obj.dead) {
+            if (!obj.dead && obj.data.type_ == type) {
                 living++;
             }
         }

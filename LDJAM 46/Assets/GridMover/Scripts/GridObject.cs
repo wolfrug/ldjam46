@@ -199,7 +199,6 @@ public class GridObject : MonoBehaviour {
         if (animator != null) {
             animator.SetBool ("Dead", death);
             iconUIScript.healthBarFill = health;
-            deathEvent.Invoke (this);
         }
     }
 
@@ -212,6 +211,7 @@ public class GridObject : MonoBehaviour {
             } else {
                 AnimateDeath ();
                 dead = true;
+                deathEvent.Invoke (this);
             }
         };
     }

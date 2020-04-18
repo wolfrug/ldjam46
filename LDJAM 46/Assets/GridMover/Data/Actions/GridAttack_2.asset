@@ -19,9 +19,8 @@ MonoBehaviour:
   actionDescription: 'Damage: 2
 
     <i>Hulk smash.</i>'
-  actionIcon: {fileID: 21300000, guid: 87019b5669f01ae44b7dfe348c17665e, type: 3}
-  cardPrefab: {fileID: 2788105039357319516, guid: e4f47e61225e43c4ba71825c88e3d7cb,
-    type: 3}
+  actionIcon: {fileID: 0}
+  cardPrefab: {fileID: 0}
   attackRange: 1
   damage: 2
   facing: 0

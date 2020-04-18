@@ -70,8 +70,8 @@ public class InkWriter : MonoBehaviour {
 
 	private List<Button> cachedButtons = new List<Button> { };
 	private Button pickedButton;
-	private string lastText;
-	private string lastSaveableTags;
+	private string lastText = "";
+	private string lastSaveableTags = "";
 
 	// Make this array larger as more tags are added; currently portrait is saved in 0 and background in 1
 	private string[] tagsToSave = new string[2] { "", "" };
@@ -114,14 +114,17 @@ public class InkWriter : MonoBehaviour {
 		lastSaveableTags = "";
 		story = new Story (inkStoryObject.inkJsonAsset.text);
 		inkStoryObject.Init ();
-		string savedJson = PlayerPrefs.GetString (inkStoryObject.storyName + "savedInkStory");
-		if (savedJson != "") {
-			story.state.LoadJson (savedJson);
-			Debug.Log ("Loading story");
-			lastText = (string) InkWriter.main.story.variablesState["lastSavedString"];
-			lastSaveableTags = (string) InkWriter.main.story.variablesState["lastSavedTags"];
-			Debug.Log ("Tags at load point: " + lastSaveableTags);
-			loading = true;
+		if (ES3.KeyExists (inkStoryObject.storyName + "savedInkStory")) {
+			string savedJson = ES3.Load<string> (inkStoryObject.storyName + "savedInkStory");
+			//string savedJson = PlayerPrefs.GetString (inkStoryObject.storyName + "savedInkStory");
+			if (savedJson != "") {
+				story.state.LoadJson (savedJson);
+				Debug.Log ("Loading story");
+				lastText = (string) InkWriter.main.story.variablesState["lastSavedString"];
+				lastSaveableTags = (string) InkWriter.main.story.variablesState["lastSavedTags"];
+				Debug.Log ("Tags at load point: " + lastSaveableTags);
+				loading = true;
+			}
 		} else { // no saved json -> go to "start" knot
 			if (mainWriter) { GoToKnot ("start"); };
 		}
@@ -136,13 +139,15 @@ public class InkWriter : MonoBehaviour {
 			tagsToSave[i] = "";
 		}
 		if (!Application.isPlaying) {
-			PlayerPrefs.SetString (inkStoryObject.storyName + "savedInkStory", "");
+			ES3.DeleteKey (inkStoryObject.storyName + "savedInkStory");
+			//PlayerPrefs.SetString (inkStoryObject.storyName + "savedInkStory", "");
 		} else {
 			int childCount = textArea.transform.childCount;
 			for (int i = childCount - 1; i >= 0; --i) {
 				GameObject.Destroy (textArea.transform.GetChild (i).gameObject);
 			}
-			PlayerPrefs.SetString (inkStoryObject.storyName + "savedInkStory", "");
+			ES3.DeleteKey (inkStoryObject.storyName + "savedInkStory");
+			//PlayerPrefs.SetString (inkStoryObject.storyName + "savedInkStory", "");
 			DisablePortraits ();
 			DisableBackgrounds ();
 			StartStory ();
@@ -370,7 +375,8 @@ public class InkWriter : MonoBehaviour {
 		InkWriter.main.story.variablesState["lastSavedString"] = lastText;
 		SerializeSavedTags ();
 		InkWriter.main.story.variablesState["lastSavedTags"] = lastSaveableTags;
-		PlayerPrefs.SetString (inkStoryObject.storyName + "savedInkStory", story.state.ToJson ());
+		ES3.Save<string> (inkStoryObject.storyName + "savedInkStory", story.state.ToJson ());
+		//PlayerPrefs.SetString (inkStoryObject.storyName + "savedInkStory", story.state.ToJson ());
 		Debug.Log ("Tags at save point: " + lastSaveableTags);
 	}
 

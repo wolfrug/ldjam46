@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -136,22 +136,22 @@ PrefabInstance:
     - target: {fileID: 2585121521201588085, guid: be615d41d0ee0864b88f6515a702c04f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.8849998
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2585121521201588085, guid: be615d41d0ee0864b88f6515a702c04f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 28.85325
+      value: 101.41
       objectReference: {fileID: 0}
     - target: {fileID: 2585121521201588085, guid: be615d41d0ee0864b88f6515a702c04f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2585121521201588085, guid: be615d41d0ee0864b88f6515a702c04f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2585121521201588085, guid: be615d41d0ee0864b88f6515a702c04f,
         type: 3}
@@ -161,12 +161,12 @@ PrefabInstance:
     - target: {fileID: 2585121521201588085, guid: be615d41d0ee0864b88f6515a702c04f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000020213653
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2585121521201588085, guid: be615d41d0ee0864b88f6515a702c04f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2585121521201588085, guid: be615d41d0ee0864b88f6515a702c04f,
         type: 3}
@@ -634,18 +634,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d95b9db576d653946a51295c995233c3, type: 3}
---- !u!114 &1217159880 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2351733328451418129, guid: 56c963539952754468fc1b2fe2a25223,
-    type: 3}
-  m_PrefabInstance: {fileID: 6187622853259559542}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 109c8c616b900b14a9ec7d30783f91a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1217159882 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8793004618829770216, guid: 56c963539952754468fc1b2fe2a25223,
@@ -1185,18 +1173,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4981255762616086978}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6187622853412830102 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1224455227791100500, guid: f5874853afbbb0c49bb0a353b4de609b,
-    type: 3}
-  m_PrefabInstance: {fileID: 4981255762616086978}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 109c8c616b900b14a9ec7d30783f91a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!19719996 &6187622853600975353
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -1392,8 +1368,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainGrid: {fileID: 6187622853844050254}
-  test1: {fileID: 6187622853412830102}
-  test2: {fileID: 1217159880}
+  objectDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6187622853844050252
 MonoBehaviour:
   m_ObjectHideFlags: 0

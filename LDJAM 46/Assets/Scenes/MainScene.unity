@@ -1588,7 +1588,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh124734
+  m_Name: pb_Mesh138372
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2011,7 +2011,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh124770
+  m_Name: pb_Mesh138408
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3282,6 +3282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1699cf60a35894a9e8104c2948121c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
   playerSkills: []
   allTraits:
   - id: Vengeful
@@ -3311,6 +3312,9 @@ MonoBehaviour:
   scenes: []
   currentScene: 0
   currentTownScene: -1
+  townMusic: {fileID: 0}
+  battleMusic: {fileID: 0}
+  specialMusic: {fileID: 0}
 --- !u!4 &1731570628
 Transform:
   m_ObjectHideFlags: 0

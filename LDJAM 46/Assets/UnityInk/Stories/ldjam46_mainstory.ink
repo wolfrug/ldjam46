@@ -76,3 +76,19 @@ You return to the streets.
 ->debugTravel
 }
 ->DONE
+
+==town_0
+Start town! Woop!
+->start
+
+==town_1
+Town 1!
+->endLocation
+
+==town_2
+Town 2!
+->endLocation
+
+==town_3
+Town 3!
+->endLocation
