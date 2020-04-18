@@ -17,7 +17,7 @@ public class GridActionCard : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start () {
-        useButton.onClick.AddListener (() => ActivateAction (false));
+        //useButton.onClick.AddListener (() => ActivateAction (false));
     }
     void OnEnable () {
         animator.SetBool ("Active", !actionUsed);

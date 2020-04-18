@@ -92,6 +92,7 @@ public class GridUIManager : MonoBehaviour {
                 spawnedActions.Add (newAction);
                 GridActionCard card = newAction.GetComponent<GridActionCard> ();
                 card.UpdateActionCard (data.actionName, data.actionCost.ToString (), data.actionDescription, data.actionIcon);
+                card.useButton.onClick.AddListener (() => card.ActivateAction (false));
                 actions.Add (card);
                 newAction.SetActive (false);
                 // Set up the listener to the action also!

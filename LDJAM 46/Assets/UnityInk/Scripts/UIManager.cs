@@ -6,21 +6,23 @@ public class UIManager : MonoBehaviour {
     public static UIManager instance;
     public Canvas canvas;
 
-    public RectTransform sunSpoke;
-    public RectTransform moonSpoke;
-
-    // how much slower/faster etc should this time be compared to 'real' time
-    public float timeAdjustmentCoeff = 1f;
+    public GameObject[] allScenes;
     public InkCharacterObject[] characters;
     public Transform portraitParent;
-    public GameObject[] fragmentPieces;
-    public Animator fragmentAnimator;
+    public Transform TraitAddingParent;
+    public List<GridActionCard> traitButtons = new List<GridActionCard> { };
+    public bool pickingTraits = false;
     public GenericLoadingBar loadingBar;
     [SerializeField]
     private UIResourceObject[] allResourceObjects;
     private Dictionary<string, ProgressBar> progressBars = new Dictionary<string, ProgressBar> { };
     private Dictionary<string, InkCharacterObject> charactersDict = new Dictionary<string, InkCharacterObject> { };
     private Dictionary<InkCharacterObject, GameObject> spawnedPortraits = new Dictionary<InkCharacterObject, GameObject> { };
+    public GenericMouseOver[] allSelectables;
+    public Material mouseOverSelectedMat;
+    public Material mouseOverDeselectedMat;
+    public bool canSelectNext = true;
+
     void Awake () {
         if (instance == null) {
             instance = this;
@@ -34,20 +36,123 @@ public class UIManager : MonoBehaviour {
         foreach (InkCharacterObject ico in characters) {
             charactersDict.Add (ico.characterName, ico);
         }
-        allResourceObjects = FindObjectsOfType<UIResourceObject> ();
-
     }
+
+    public void EventListenerCanSelect (string tag, int valuechange) {
+        Debug.Log ("Var changed: " + tag + valuechange);
+        canSelectNext = valuechange > 0;
+        UIManager.instance.SelectableDeselectAll ();
+    }
+
+    public void EventListenerTraitChanged (string tag, string newvalue) {
+        Debug.Log ("Var changed: " + tag + newvalue);
+        GameManager.instance.AddTraitChoice (newvalue);
+    }
+
     public void Init () {
         foreach (UIResourceObject obj in allResourceObjects) {
             obj.Init ();
         }
-        // Set the current nr of fragments correctly
-        int currentValue = (int) InkWriter.main.story.variablesState[("artifacts")];
-        if (currentValue > 0) {
-            for (int i = 1; i <= currentValue; i++) {
-                ActivateFragmentPiece ("dummy", i);
-            }
+        allResourceObjects = FindObjectsOfType<UIResourceObject> ();
+        // Start the correct scene!
+        GameObject currentScene = allScenes[GameManager.instance.currentTownScene];
+        foreach (GameObject obj in allScenes) { obj.SetActive (false); };
+        currentScene.SetActive (true);
+        SelectableSetup ();
+        InkWriter.main.StartStory ();
+        InkWriter.main.story.ObserveVariable ("canSelectNext", (string varName, object newValue) => {
+            UIManager.instance.EventListenerCanSelect (varName, (int) newValue);
+        });
+    }
+
+    public void ContinueToNextScene (string tag) {
+        Debug.Log ("Tag received: " + tag);
+        if (tag == "continueStory") {
+            LoadNextScene ();
+        }
+    }
+
+    public void LoadNextScene () {
+        GameManager.instance.LoadNextScene ();
+    }
+
+    public void LoadScene (string scene) {
+        GameManager.instance.LoadScene (scene);
+    }
+
+    public void AddTraitChoice (GridObjectInteractDataBase data) {
+
+        if ((int) InkWriter.main.story.variablesState[(data.id)] == 0) {
+            GameObject newAction = Instantiate (data.cardPrefab, TraitAddingParent);
+            GridActionCard card = newAction.GetComponent<GridActionCard> ();
+            traitButtons.Add (card);
+            card.UpdateActionCard (data.actionName, data.actionCost.ToString (), data.actionDescription, data.actionIcon);
+            // actions.Add (card);
+            newAction.SetActive (true);
+            // Set up the listener to the action also!
+            //card.useButton.onClick.RemoveAllListeners ();
+            card.useButton.onClick.AddListener (() => PickTrait (data));
+            // give it the data so it knows what it is
+            card.data = data;
         };
+    }
+
+    void PickTrait (GridObjectInteractDataBase data) { // You picked this trait!
+        GameManager.instance.AddTrait (data);
+        foreach (GridActionCard trait in traitButtons) {
+            if (trait.data != data) {
+                trait.ActivateAction (false);
+                InkWriter.main.story.variablesState[(trait.data.id)] = -1;
+                Destroy (trait.gameObject, 0.5f);
+            } else {
+                Destroy (trait.gameObject, 1f);
+            }
+        }
+        traitButtons.Clear ();
+        string knot = (string) InkWriter.main.story.variablesState["traitDoneKnot"];
+        if (knot != "") {
+            InkWriter.main.GoToKnot (knot);
+            InkWriter.main.story.variablesState["traitDoneKnot"] = "";
+        } else {
+            Debug.LogWarning ("Someone forgot to set the 'traitDoneKNot' variable, oops.");
+            InkWriter.main.story.variablesState[("canSelectNext")] = 1;
+        }
+
+    }
+
+    void SelectableSetup () {
+        allSelectables = FindObjectsOfType<GenericMouseOver> ();
+        foreach (GenericMouseOver selectable in allSelectables) {
+            selectable.mouseOverEvent.AddListener (SelectableSetMaterialSelect);
+            selectable.mouseExitEvent.AddListener (SelectableSetMaterialDeSelect);
+            selectable.mouseLeftClickEvent.AddListener (SelectableClick);
+        }
+    }
+    void SelectableSetMaterialSelect (GenericMouseOver obj) {
+        //Debug.Log ("Mouse over: " + obj.id, obj.gameObject);
+        if (canSelectNext) {
+            Renderer rend = obj.gameObject.GetComponent<MeshRenderer> ();
+            rend.material = mouseOverSelectedMat;
+        };
+    }
+    void SelectableSetMaterialDeSelect (GenericMouseOver obj) {
+        if (canSelectNext) {
+            Renderer rend = obj.gameObject.GetComponent<MeshRenderer> ();
+            rend.material = mouseOverDeselectedMat;
+        };
+    }
+    void SelectableDeselectAll () {
+        foreach (GenericMouseOver obj in allSelectables) {
+            SelectableSetMaterialDeSelect (obj);
+        }
+    }
+    void SelectableClick (GenericMouseOver obj) {
+        Debug.Log ("Mouse clicked: " + obj.id, obj.gameObject);
+        if (canSelectNext) {
+            //canSelectNext = false;
+            InkWriter.main.story.variablesState[("canSelectNext")] = 0;
+            InkWriter.main.GoToKnot ("start_" + obj.id);
+        }
     }
 
     public void AddProgressBar (ProgressBar bar) {
@@ -87,10 +192,6 @@ public class UIManager : MonoBehaviour {
         }
 
     }
-    public void ActivateFragmentPiece (string tag, int nr) {
-        fragmentAnimator.SetTrigger ("activate");
-        fragmentPieces[nr - 1].SetActive (true);
-    }
 
     void DeactivatePortraits () {
         foreach (KeyValuePair<InkCharacterObject, GameObject> entry in spawnedPortraits) {
@@ -98,34 +199,34 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-/*    public void PauseGame (bool pause) {
-        GameManager.instance.PauseGame (pause);
-    }
+    /*    public void PauseGame (bool pause) {
+            GameManager.instance.PauseGame (pause);
+        }
 
-    public void SaveGame () {
-        GameManager.instance.SaveGame ();
-    }
-    public void LoadGame () {
-        GameManager.instance.LoadGame ();
-    }
+        public void SaveGame () {
+            GameManager.instance.SaveGame ();
+        }
+        public void LoadGame () {
+            GameManager.instance.LoadGame ();
+        }
 
-    public void Restart () {
-        GameManager.instance.Restart ();
-    }
+        public void Restart () {
+            GameManager.instance.Restart ();
+        }
 
-    [EasyButtons.Button]
-    public void ResetGame () {
-        GameManager.instance.ResetGame ();
-    }
+        [EasyButtons.Button]
+        public void ResetGame () {
+            GameManager.instance.ResetGame ();
+        }
 
-    public void QuitGame () {
-        GameManager.instance.QuitGame ();
-    }
+        public void QuitGame () {
+            GameManager.instance.QuitGame ();
+        }
 
-    public void WinGame () {
-        GameManager.instance.WinGame ();
-    }
-*/
+        public void WinGame () {
+            GameManager.instance.WinGame ();
+        }
+    */
     // Update is called once per frame
     void Update () {
 

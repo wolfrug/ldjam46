@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14190be580bdcdc4ca5acd3acd527094, type: 3}
+  m_Name: TraitVengeful
+  m_EditorClassIdentifier: 
+  id: Vengeful
+  actionName: Vengeance
+  type: 1000
+  actionCost: 3
+  actionDescription: 'Damage 3, Range 2
+
+    <i>Vengeance is mine.</i>'
+  actionIcon: {fileID: 21300000, guid: 7904ed4d00969554cb0f2bc4505a101b, type: 3}
+  cardPrefab: {fileID: 2788105039357319516, guid: e4f47e61225e43c4ba71825c88e3d7cb,
+    type: 3}
+  attackRange: 2
+  damage: 3
+  facing: 0
+  animationTrigger: Attack

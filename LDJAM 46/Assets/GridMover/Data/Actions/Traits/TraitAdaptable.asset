@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14190be580bdcdc4ca5acd3acd527094, type: 3}
+  m_Name: TraitAdaptable
+  m_EditorClassIdentifier: 
+  id: Adaptable
+  actionName: Adapting
+  type: 3000
+  actionCost: 3
+  actionDescription: 'Damage 3, Range 2
+
+    <i>Vengeance is mine.</i>'
+  actionIcon: {fileID: 21300000, guid: 7904ed4d00969554cb0f2bc4505a101b, type: 3}
+  cardPrefab: {fileID: 6836864056346950543, guid: f1c1b50d43e4ab7438373020a0398d1a,
+    type: 3}
+  attackRange: 2
+  damage: 3
+  facing: 0
+  animationTrigger: Attack

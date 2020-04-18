@@ -244,13 +244,14 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+      objectReference: {fileID: 11400000, guid: cc17b31f32d46034ba814fc1437a2a8f,
         type: 2}
     - target: {fileID: 7839342851535944884, guid: af73fe4bc0b091e4898cbc24d86be35e,
         type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+      objectReference: {fileID: 351066359412873533, guid: cc17b31f32d46034ba814fc1437a2a8f,
+        type: 2}
     - target: {fileID: 8867395200613429565, guid: af73fe4bc0b091e4898cbc24d86be35e,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -6,7 +6,6 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class CameraController : MonoBehaviour {
     public static CameraController instance;
-
     public CinemachineVirtualCamera zoomedInCamera;
     public CinemachineVirtualCamera travelCamera;
     public CinemachineVirtualCamera interactCamera;
@@ -26,10 +25,10 @@ public class CameraController : MonoBehaviour {
     }
     // Start is called before the first frame update
     void Start () {
-        postProcessVolume = GetComponent<PostProcessVolume> ();
-        lerpStartValue = DistanceToPlayer ();
+        //postProcessVolume = GetComponent<PostProcessVolume> ();
+        //lerpStartValue = DistanceToPlayer ();
     }
-
+/*
     public void TravelCameraUse () {
         currentCamera = travelCamera;
         travelCamera.Priority = 10;
@@ -87,6 +86,7 @@ public class CameraController : MonoBehaviour {
         //return Vector3.Distance (transform.position, GameManager.instance.playerController.transform.position);
         return DistanceToCameraTarget ();
     }
+    
     private float DistanceToCameraTarget () {
         if (currentCamera.m_LookAt != null) {
             return Vector3.Distance (transform.position, currentCamera.m_LookAt.position);
@@ -96,21 +96,22 @@ public class CameraController : MonoBehaviour {
             return DistanceToPlayer ();
         }
     }
-
-    [EasyButtons.Button]
-    void SetDepthOfFieldFocus (float focus) {
-        DepthOfField dof;
-        postProcessVolume.profile.TryGetSettings<DepthOfField> (out dof);
-        dof.focusDistance.value = focus;
+    
+            [EasyButtons.Button]
+            void SetDepthOfFieldFocus (float focus) {
+                DepthOfField dof;
+                postProcessVolume.profile.TryGetSettings<DepthOfField> (out dof);
+                dof.focusDistance.value = focus;
+            }
+            // Update is called once per frame
+            void Update () {
+                /* if (lerpStartValue != DistanceToCameraTarget ()) {
+                     SetDepthOfFieldFocus (Mathf.Lerp (lerpStartValue, DistanceToCameraTarget (), lerpValue));
+                     lerpValue += 0.5f * Time.deltaTime;
+                 } else {
+                     lerpValue = 0f;
+                 }
+                 
     }
-    // Update is called once per frame
-    void Update () {
-        /* if (lerpStartValue != DistanceToCameraTarget ()) {
-             SetDepthOfFieldFocus (Mathf.Lerp (lerpStartValue, DistanceToCameraTarget (), lerpValue));
-             lerpValue += 0.5f * Time.deltaTime;
-         } else {
-             lerpValue = 0f;
-         }
-         */
-    }
+    */
 }

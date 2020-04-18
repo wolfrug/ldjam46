@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
+public class GridObjectDie : UnityEvent<GridObject> { }
+
+[System.Serializable]
+public class GridObjectHurt : UnityEvent<GridObject, int> { }
+
 public enum GridObjectFacing {
     NONE = 0000,
     UP_RIGHT = 1000,
@@ -27,6 +33,9 @@ public class GridObject : MonoBehaviour {
     public int actionpoints;
     public bool dead;
     public Vector2Int facing;
+
+    public GridObjectDie deathEvent;
+    public GridObjectHurt hurtEvent;
 
     // Start is called before the first frame update
     void Start () {
@@ -116,7 +125,8 @@ public class GridObject : MonoBehaviour {
         };
     }
     void ClickToChangeFacing (TileInfo info) { // change facing in the direction of a right-click when selected
-        if (!dead && selected == this && data.type_ == GridObjectType.PLAYABLE) {
+        if (!dead && selected == this && data.type_ == GridObjectType.PLAYABLE && actionpoints > 0) {
+            Vector2Int oldfacing = facing;
             Vector3Int mousePos = GridManager.instance.maingrid.WorldToCell (GridCameraController.instance.mainCam.ScreenToWorldPoint (Input.mousePosition));
             Vector3Int avatarPos = pathfinder.selfLocation;
             //Debug.Log ("Mouse X" + mousePos.x + "Avatar X: " + avatarPos.x + "Mouse Y: " + mousePos.y + "Avatar Y: " + avatarPos.y);
@@ -128,6 +138,10 @@ public class GridObject : MonoBehaviour {
                 ChangeFacing (GridObjectFacing.UP_RIGHT);
             } else if (mousePos.x < avatarPos.x && mousePos.y == avatarPos.y) {
                 ChangeFacing (GridObjectFacing.DOWN_LEFT);
+            }
+            if (facing != oldfacing) {
+                actionpoints--;
+                GridUIManager.instance.UpdateCharacter (this);
             }
         }
     }
@@ -185,12 +199,14 @@ public class GridObject : MonoBehaviour {
         if (animator != null) {
             animator.SetBool ("Dead", death);
             iconUIScript.healthBarFill = health;
+            deathEvent.Invoke (this);
         }
     }
 
     public void Damage (int damage) {
         if (!dead) {
             health -= damage;
+            hurtEvent.Invoke (this, damage);
             if (health > 0) {
                 AnimateDamage ((float) health / (float) data.health);
             } else {

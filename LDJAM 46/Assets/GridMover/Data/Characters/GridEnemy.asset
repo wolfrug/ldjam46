@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0938f891d967e5409cc94c75256ad9b, type: 3}
+  m_Name: GridEnemy
+  m_EditorClassIdentifier: 
+  name_: vampire
+  type_: 4000
+  defaultActions:
+  - {fileID: 11400000, guid: 56439da26d5f412479653439fb843788, type: 2}
+  - {fileID: 11400000, guid: cdcb194a4857bc84ea6353030d105256, type: 2}
+  actionpoints: 5
+  health: 5
+  prefab_: {fileID: 0}
+  iconPrefab_: {fileID: 8270939334567611733, guid: 41c7ce956f6929545a8f178a4c12536d,
+    type: 3}
+  portraitImage: {fileID: -3832364258916793407, guid: 2899f7a4ee84a8e478205c33af90ea27,
+    type: 3}

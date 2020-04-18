@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GridObjectManager : MonoBehaviour {
     public static GridObjectManager instance;
     private List<GridObject> allGridObjectsMain = new List<GridObject> { };
 
     private List<GridObject> allPlayableObjectsMain = new List<GridObject> { };
+    private List<GridObject> allEnemyObjectsMain = new List<GridObject> { };
     public Grid mainGrid;
+    public GridObjectDie objectDieEvent;
     // Start is called before the first frame update
 
     void Awake () {
@@ -23,13 +26,22 @@ public class GridObjectManager : MonoBehaviour {
         }
     }
 
+    void GridObjectDie (GridObject obj) {
+        objectDieEvent.Invoke (obj);
+    }
+
     public void UpdateGridObjectListSlow () {
         allGridObjectsMain.Clear ();
         allPlayableObjectsMain.Clear ();
         foreach (GridObject obj in FindObjectsOfType<GridObject> ()) {
             allGridObjectsMain.Add (obj);
+            obj.deathEvent.RemoveListener (GridObjectDie);
+            obj.deathEvent.AddListener (GridObjectDie);
             if (obj.data.type_ == GridObjectType.PLAYABLE) {
                 allPlayableObjectsMain.Add (obj);
+            }
+            if (obj.data.type_ == GridObjectType.ENEMY) {
+                allEnemyObjectsMain.Add (obj);
             }
         }
     }
@@ -58,15 +70,24 @@ public class GridObjectManager : MonoBehaviour {
             }
             return allPlayableObjectsMain;
         }
-
+    }
+    public List<GridObject> allEnemyObjects {
+        get {
+            if (allEnemyObjectsMain.Count == 0) {
+                UpdateGridObjectListSlow ();
+            }
+            return allEnemyObjectsMain;
+        }
     }
 
-    public GridObject test1;
-    public GridObject test2;
-    [EasyButtons.Button]
-    void DebugTestDistance () {
-        Debug.Log (GridObjectDistance (test1, test2));
-        Debug.Log (GridObjectDistanceLine (test1, test2));
+    public int LivingEntities (GridObjectType type) {
+        int living = 0;
+        foreach (GridObject obj in allGridObjects) {
+            if (!obj.dead) {
+                living++;
+            }
+        }
+        return living;
     }
 
     public int GridObjectDistance (GridObject one, GridObject two) { // calculate the number of squares between two objects. very fast
